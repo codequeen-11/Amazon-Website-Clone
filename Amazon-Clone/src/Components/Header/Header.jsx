@@ -2,6 +2,7 @@ import classes from './Header.module.css';
 import { SlLocationPin } from "react-icons/sl";
 import { BiCart } from "react-icons/bi";
 import { IoSearch } from "react-icons/io5";
+import LowerHeader from './LowerHeader';
 
 const Header = () => {
   return (
@@ -68,6 +69,7 @@ const Header = () => {
           </div>
         </div>
       </section>
+      < LowerHeader/>
     </>
   );
 };
