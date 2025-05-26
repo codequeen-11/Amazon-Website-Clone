@@ -2,6 +2,7 @@
 import Header from './Components/Header/Header'
 import  CarouselEffect from './Components/Carousel/CarouselEffect'
 import Category from './Components/Catagory/Category'
+import Product from './Components/Product/Product'
  
  function App() {
    return (
@@ -9,6 +10,7 @@ import Category from './Components/Catagory/Category'
      < Header/>
      < CarouselEffect/>
      < Category/>
+     <Product/>
      </>
    )
  }
