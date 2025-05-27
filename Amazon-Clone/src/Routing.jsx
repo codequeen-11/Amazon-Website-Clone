@@ -14,7 +14,7 @@ import Order from './Pages/Orders/Order';
 import Cart from './Pages/Cart/Cart';
 import Four04 from './Pages/Four04';
 import Results from './Pages/Results/Results';
-
+import ProductDetail from './Pages/ProductDetail/ProductDetail';
 function Routing() {
   return (
      <Router>
@@ -24,7 +24,8 @@ function Routing() {
         <Route path='/payment' element ={<Payment/>}/>
         <Route path='/order' element ={<Order/>}/>
         <Route path='/cart' element ={<Cart/>}/>
-        <Route path='/results' element={<Results/>}/>
+        <Route path='/category/:categoryName' element={<Results/>}/>
+        <Route path='/product/:productId' element= {<ProductDetail/>}/>
 
         <Route path='*' element={<Four04/>}/>
 
