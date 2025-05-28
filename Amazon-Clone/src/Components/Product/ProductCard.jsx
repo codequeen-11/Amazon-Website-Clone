@@ -4,6 +4,7 @@ import CurrencyFormat from '../CurrencyFormat/CurrencyFormat';
 import classes from './Product.module.css'
 import { Link } from 'react-router-dom';
 function ProductCard({product}) {
+     if (!product) return null; 
     const { image, title, id, rating, price} = product;
   return (
     <div className= {`${classes.card__container}`}> 
