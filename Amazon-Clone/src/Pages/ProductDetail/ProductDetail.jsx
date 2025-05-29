@@ -24,15 +24,14 @@ function ProductDetail() {
     
   return (
     < Layout>
-    {isLoading? (<Loader/>):(<ProductCard/>)}
-    <div>
-      < ProductCard
-    product={product}
-    />
-
-    </div>
-     
+       {isLoading? (<Loader/>):(<ProductCard 
+         product={product}
+          flex = {true}
+          renderDesc= {true} />)}
+       
     </ Layout>
+
+     
 
   )
 }
