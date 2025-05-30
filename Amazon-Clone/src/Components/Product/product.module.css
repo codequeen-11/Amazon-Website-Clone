@@ -1,7 +1,4 @@
-/* *{
-    padding: 0;
-    margin: 0;
-} */
+ 
 .card__container{
     width: 250px;
     box-shadow: 0 0 10px rgba(0, 0, 0,0.2);
@@ -77,7 +74,7 @@ display: block;
 }
 
 .product__flexed{
-    height: 50vh;
+    /* height: 50vh; */
 }
 .product__flexed img{
     width: 300px !important;
@@ -94,6 +91,6 @@ display: block;
 }
 
 .card__container .description{
-    max-width: 720px;
+    max-width: 750px;
 }
     
