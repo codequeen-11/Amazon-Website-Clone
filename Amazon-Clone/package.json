@@ -3,6 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+   "homepage": "https://codequeen-11.github.io/amazon-clone",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
