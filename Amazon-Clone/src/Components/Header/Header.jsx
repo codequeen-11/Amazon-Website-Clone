@@ -6,9 +6,9 @@ import LowerHeader from './LowerHeader';
 import { Link } from 'react-router-dom';
 import { useContext } from 'react';
 import { DataContext } from '../DataProvider/DataProvider';
-
+import {auth} from '../../Utility/FireBase'
 const Header = () => {
- const [{basket}, dispatch] = useContext(DataContext)
+ const [{user,basket}, dispatch] = useContext(DataContext)
  const totalItem = basket?.reduce((amount,item)=>{
   return item.amount + amount
  },0)
@@ -45,7 +45,7 @@ const Header = () => {
               type="text"
               placeholder="Search Amazon"
             />
-            <IoSearch size={25} />
+            <IoSearch size={38} />
           </div>
 
           {/* Right Side Options */}
@@ -60,9 +60,24 @@ const Header = () => {
               </select>
             </Link>
 
-            <Link to="/auth">
-              <p>Hello, Sign In</p>
-              <span>Account & Lists</span>
+            <Link to={!user && "/auth"}>
+            <div>
+              {
+                user?(
+                  <>
+                  <p>Hello, {user?.email?.split('@')[0]} </p>
+                  <span onClick={()=>auth.signOut}>Sign Out</span>
+                  </>
+                ):(
+                  <>
+                  <p>Hello, Sign In</p>
+                   <span>Account & Lists</span>
+                  </>
+                   
+                )
+
+              }
+            </div>
             </Link>
 
             <Link to="/order">
