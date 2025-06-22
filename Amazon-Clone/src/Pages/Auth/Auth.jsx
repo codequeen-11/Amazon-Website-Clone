@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Link ,useNavigate,useNavigation} from 'react-router-dom';
+import { Link ,useNavigate, useLocation} from 'react-router-dom';
 import { auth } from '../../Utility/FireBase';
 import {
   signInWithEmailAndPassword,
@@ -13,6 +13,7 @@ import { useContext } from 'react';
 import { Type } from '../../Utility/action.type';
 
 function Auth() {
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [err, setErr] = useState('');
@@ -22,9 +23,8 @@ function Auth() {
   });
   const [{user}  , dispatch ] = useContext(DataContext)
   const navigate = useNavigate()
+  const navStateData = useLocation()
 
-  //   console.log(user)
-  
   const authHandler = async (e) => {
     e.preventDefault();
   
@@ -45,9 +45,7 @@ function Auth() {
     user: userInfo.user
   });
    setLoading({...Loading, signIn:false})
-   navigate('/')
-  
-         
+   navigate(navStateData?.state?.redirect || '/')
   
         console.log('Signed in:', userInfo);
         setErr('');
@@ -60,38 +58,47 @@ function Auth() {
     user: userInfo.user
   });
   setLoading({...Loading, signUp:false})
-   navigate('/')
-setErr('');
-}
+   navigate(navStateData?.state?.redirect || '/')
+   
+   setErr('');
+   }
   
-    } catch (error) {
-      let errorMsg = '';
-      switch (error.code) {
-        case 'auth/email-already-in-use':
-          errorMsg = 'This email is already registered. Try signing in instead.';
-          break;
-        case 'auth/invalid-email':
-          errorMsg = 'Please enter a valid email address.';
-          break;
-        case 'auth/weak-password':
-          errorMsg = 'Password should be at least 6 characters.';
-          break;
-        case 'auth/user-not-found':
-          errorMsg = 'No account found with this email.';
-          break;
-        case 'auth/wrong-password':
-           case 'auth/invalid-credential':
-          errorMsg = 'Incorrect password.';
-          break;
-        default:
-          errorMsg = error.message;
-      }
-      setErr(errorMsg);
-      console.error('Firebase Auth Error:', error.code, error.message);
-         setLoading({...Loading, signUp:false})
-    }
-  };
-  
+
+  } catch (error) {
+  let errorMsg = '';
+
+  switch (error.code) {
+    case 'auth/email-already-in-use':
+      errorMsg = 'This email is already registered. Try signing in instead.';
+      break;
+    case 'auth/invalid-email':
+      errorMsg = 'Please enter a valid email address.';
+      break;
+    case 'auth/weak-password':
+      errorMsg = 'Password should be at least 6 characters.';
+      break;
+    case 'auth/user-not-found':
+      errorMsg = 'No account found with this email. Please sign up first.';
+      break;
+    case 'auth/wrong-password':
+    case 'auth/invalid-credential':
+      errorMsg = 'Incorrect password.';
+      break;
+    default:
+      errorMsg = error.message;
+  }
+
+  setErr(errorMsg);
+  console.error('Firebase Auth Error:', error.code, error.message);
+
+  //: Reset correct loading state based on the action
+  if (action === 'signin') {
+    setLoading({ ...Loading, signIn: false });
+  } else {
+    setLoading({ ...Loading, signUp: false });
+  }
+}};
+
     return (
       <section className={classes.login}>
         <div>
@@ -104,6 +111,18 @@ setErr('');
         </div>
         <div className={classes.signIn__container}>
           <h1>Sign In</h1>
+          {navStateData?.state?.msg &&(
+            <small
+              style={{
+                padding: "5px",
+                textAlign: "center",
+                color: "red",
+                fontWeight: "bold",
+              }}
+            >
+              {navStateData?.state?.msg}
+            </small>
+          )}
           <form onSubmit={authHandler}>
             <div>
               <label htmlFor="email">Email</label>
@@ -120,14 +139,11 @@ setErr('');
             )}
                       </button>
             <button type="submit" name="signup" className={classes.login__registerbutton}>
-              {Loading.signIn? ( <ClipLoader color='grey' size = {15}/> ):(
+              {Loading.signUp? ( <ClipLoader color='grey' size = {15}/> ):(
               'Create your Amazon Account '
             )}
-               
             </button>
           </form>
-          {/* {err && <p style={{ color: 'red' }}>{err}</p>} */}
-  
           <p>By signing in, you agree to Amazon's Conditions of Use and Privacy Notice.</p>
         </div>
       </section>
